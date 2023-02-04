@@ -1,0 +1,34 @@
+{% extends 'catalog/base.html' %}
+    {% block content %}
+<title>Product</title>
+
+<h1> Product</h1>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+
+                  <th scope="col"> Title of Products</th>
+                  <th scope="col">Products Image</th>
+                    <th scope="col">Products Description</th>
+                   <th scope="col">Products category </th>
+                    <th scope="col">Price </th>
+                    <th scope="col">Products Status</th>
+
+                </tr>
+            </thead>
+             <tbody>
+
+                    <td>  {{object.product_name}}</td>
+                    <td>
+                        <img src="{{object.preview.url}}"  width="50" height=50  alt=""/>
+                    </td>
+                    <td>{{object.product_description}}</td>
+                    <td>{{object.category}}</td>
+                    <td>{{object.price_per_unit}}</td>
+                    <td>{{object.get_status_display}} </td>
+
+            </tbody>
+
+
+
+{% endblock %}

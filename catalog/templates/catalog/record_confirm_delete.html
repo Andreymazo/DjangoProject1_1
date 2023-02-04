@@ -1,0 +1,21 @@
+{%extends 'catalog/base.html'%}
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <a class="btn btn-outline-secondary" href="{% url 'catalog:Rec_list' %}">Peredumal</a>
+
+<!--                    <button class="btn btn-outline-secondary" type="submit" id="input-group-text">Button</button>-->
+                    <a class="btn" href="{% url 'catalog:Rec_list' %}"> Udalit </a>
+                    <button class="btn btn-outline-secondary" type="submit">Button</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

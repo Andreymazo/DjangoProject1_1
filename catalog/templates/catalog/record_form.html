@@ -1,0 +1,43 @@
+{%extends 'catalog/base.html'%}
+  {% block content %}
+<H2>Creating record in progress</H2>
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{form.as_p}}
+              
+<!--                  <input type="file" name="myfile1">-->
+                  <button class="btn btn-outline-secondary" type="submit" id="input-group-text">Button</button>
+<!--              </form>-->
+<!--              <p> SSilka: <a href = "{{ file_url }}">{{ file_url}}</a></p>-->
+<!--              <div class="input-group">-->
+<!--                <div class="input-group-prepend">-->
+<!--                  <span class="input-group-text" id="">Title</span>-->
+<!--                  <input type="text" class="form-control">-->
+<!--                  <span class="input-group-text" id="">Content</span>-->
+<!--                  <input type="text" class="form-control">-->
+<!--                  <span class="input-group-text" id="inputGroup-sizing-lg">Send</span>-->
+      <!--                <a class=" " href=" {url Rec_list" </a>-->
+
+
+
+<!--                                    {% if img_obj %}-->
+<!--                                      <h3>Succesfully uploaded : {{img_obj.title}}</h3>-->
+<!--                                      <img src="{{ img_obj.image.url}}" alt="connect" style="max-height:300px">-->
+<!--                                    {% endif %}-->
+<!--                  <span class="input-group-text" id="">Id</span>-->
+<!--                  <input type="text" class="form-control">-->
+<!--                  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">-->
+<!--                <div class="custom-file">-->
+<!--                  <input type="file" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">-->
+<!--&lt;!&ndash;                  <input type="file" class="custom-file-input" id="inputGroupFile01">&ndash;&gt;-->
+<!--                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>-->
+<!--                </div>-->
+            </form>
+        </div>
+      </div>
+    </div>
+      {% endblock %}

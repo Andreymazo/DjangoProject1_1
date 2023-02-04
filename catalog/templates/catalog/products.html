@@ -1,0 +1,80 @@
+  {% extends 'catalog/base.html' %}
+    {% block content %}
+<h1>Category</h1>
+
+          <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Category</th>
+              <th scope="col">Category Description</th>
+
+            </tr>
+          </thead>
+          <tbody>
+           {% for Category.object in object_list %}
+<!--                {% if object.category != "nasekomie" %}-->
+                <tr>
+                    <td>{{object.id}}</td>
+                    <td>{{object.category}}</td>
+                    <td>{{object.category_description}}</td>
+
+                </tr>
+<!--                {% endif %}-->
+          {% endfor %}
+          </tbody>
+        </table>
+<!--https://pickimage.ru/wp-content/uploads/images/detskie/orange/apelsin8.jpg-->
+<div class="card" style="width: 18rem;">
+  <img src="/media/grocery_delivery.avif" width="10" height="200" class="card-img-top" alt="Lemon">
+  <div class="card-body">
+    <p class="card-text">Gentle groceries from friendly people, hm... friendly groceries from gentle people</p>
+  </div>
+</div>
+
+    {% load filter_catalog %}
+
+<h1>Products</h1>
+          <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Preview</th>
+                <th scope="col">Product Description</th>
+                <th scope="col">Product Category</th>
+                <th scope="col">Price of Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+           {% for object in object_list %}
+
+                <tr>
+                    <td>{{object.id}}</td>
+<!--                    {% if object.product_name length > 100% }-->
+<!--                    str = object.product_name-->
+<!--                    |truncatechars:100-->
+
+                    <td> {{ object.product_name|truncatechars:5 }} </td>
+
+                    <td>
+                        <img src="{{object.preview}}"  width="50" height=50  alt=""/>
+
+<!--            `            img src="img.image.url"- -->
+<!--                        <img src="{ mediapath object.preview}"  height=100 />-->
+<!--&lt;!&ndash;-->
+<!--&lt;!&ndash;                        ->-->
+
+                    </td>
+                    <td>{{object.category}}</td>
+                    <td>{{object.product_description}}</td>
+                    <td>{{object.price_per_unit}}</td>
+
+                </tr>
+
+          {% endfor %}
+
+          </tbody>
+        </table>
+<h1> {{g}}</h1>
+    {% endblock %}

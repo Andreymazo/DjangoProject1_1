@@ -1,0 +1,49 @@
+{% extends 'catalog/base.html' %}
+    {% block content %}
+<title>Record </title>
+
+<h1> Records </h1>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                     <th scope="col">Your choice</th>
+                  <th scope="col"> Title of Products</th>
+                  <th scope="col">Products Description</th>
+                    <th scope="col">Products Status</th>
+                    <th scope="col">Products Image </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for object in object_list %}
+                <tr>
+                    <td>
+
+                        <a class="btn.btn-default" href="{% url 'catalog:delete' object.pk %}" >Delete</a>
+                        <a class="btn.btn-default" href="{% url 'catalog:detail' object.pk %}" >Detail</a>
+
+                    </td>
+                    <td>{{object.title}}</td>
+                    <td>{{object.content}}</td>
+                    <td>{{object.id_public}}</td>
+                    <td>
+                        <img src="{{object.image.url}}" width="50" height=50  alt=""/>
+                    </td>
+
+            `
+<!--                        <img src="{ mediapath object.preview}"  height=100 />-->
+<!--&lt;!&ndash;-->
+<!--&lt;!&ndash;                        ->-->
+
+                </tr>
+
+            {% endfor %}
+
+
+          </tbody>
+        </table>
+
+{% for object in object_lst %}
+   <li><a href="{{ object.get_absolute_url }}"> Link {{ forloop.counter }} </a></li>
+{% endfor %}
+{% endblock %}

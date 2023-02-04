@@ -1,0 +1,36 @@
+ {% extends 'catalog/base.html' %}
+    {% block content %}
+    <div class="row">
+        <div class="col-6">
+            <div class="card-header">
+                You are welcome to write us here
+
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="card-footer">
+<!--                <button type="submit" class="btn-primary">Send</button>-->
+            <div class="input-group input-group-lg">
+            <span class="input-group-text" id="inputGroup-sizing-lg">Send</span>
+<!--                <a class=" " href=" {url Rec_list" </a>-->
+                <button class="btn btn-outline-secondary" type="button" id="input-group-text">Button</button>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="input-group">
+      <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+      <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+    </div>
+
+
+     {% endblock %}
