@@ -10,11 +10,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 
 import psycopg2
+
 # from django.conf.global_settings import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog'
+    'catalog',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -70,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -85,11 +84,10 @@ DATABASES = {
         # 'USER': 'postgres',
         # 'PASSWORD': '123456',
     }
-# 'OPTIONS': {
-#         'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
-#     },
+    # 'OPTIONS': {
+    #         'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
+    #     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -109,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -121,13 +118,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_FILES_DIRS = (
-    BASE_DIR/'static',
+    BASE_DIR / 'static',
 )
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
@@ -142,3 +138,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = ' ' or None
 # EMAIL_USE_SSL = True
 # EMAIL_BACKEND = ('')
+AUTH_USER_MODEL = 'users.User'
