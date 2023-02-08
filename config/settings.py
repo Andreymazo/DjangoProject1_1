@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -138,4 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = ' ' or None
 # EMAIL_USE_SSL = True
 # EMAIL_BACKEND = ('')
-AUTH_USER_MODEL = 'users.User'
+
+
+

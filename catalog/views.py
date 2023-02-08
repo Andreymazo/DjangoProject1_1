@@ -90,7 +90,8 @@ class ProductListView(ListView):
 
 class ProductCreateView(CreateView):
     model = Product
-    form_class = SubjectForm
+    #form_class = SubjectForm
+    form_class = ProductForm
     # fields = ('product_name', 'product_description', 'preview', 'price_per_unit', 'category')
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/product_form.html'

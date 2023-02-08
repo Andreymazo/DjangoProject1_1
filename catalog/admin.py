@@ -9,8 +9,7 @@ from django.contrib import admin
 #     search_fields = ('first_name', 'last_name')
 #     list_filter = ('last_name',)
 
-from .models import Category, Product, Record
-
+from .models import Category, Product, Record, Subject
 
 # @admin.register(Person)
 # class PersonAdmin(admin.ModelAdmin):
@@ -34,3 +33,5 @@ class RecordAdmin(admin.ModelAdmin):
     list_display = ['title', 'content', 'image', 'id_public']
     prepopulated_fields = {"slug": ("title",)}
 admin.site.register(Record, RecordAdmin)
+
+admin.site.register(Subject)

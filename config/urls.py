@@ -9,11 +9,13 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', hello, name='home'),#WRONG
-    path('', TemplateView.as_view(template_name='users/home.html'), name='home'),
+    # path('', TemplateView.as_view(template_name='users/home.html'), name='home'),
+    path('', include('catalog.urls', namespace='catalog')),
+    path('users/', include('users.urls', namespace='users')),
     path('users/password_reset', TemplateView.as_view(template_name='registration/password_reset_form.html'),
          name='password_reset'),
-    path('', include('catalog.urls', namespace='catalog')),
-    path('users/', include('users.urls', namespace='users'))
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

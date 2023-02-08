@@ -34,12 +34,12 @@ class Product(models.Model):
     date_last_change = models.DateField(auto_now=True)
     status = models.CharField(choices=STATUSES, default=STATUS_ACTIV, max_length=20)
 
-    def save(self, *args, **kwargs):
-        t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        if self.product_name in t:
-            raise ValidationError('Nedopustimie slova')
-        else:
-            super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+    #     if self.product_name in t:
+    #         raise ValidationError('Nedopustimie slova')
+    #     else:
+    #         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"""{self.product_name}{self.preview}  {self.product_description} {self.price_per_unit} {self.status}   """  # {self.id}
@@ -47,7 +47,13 @@ class Product(models.Model):
 
 class Subject(models.Model):
     product_name_again = models.ForeignKey(Product, on_delete=CASCADE)  # , related_name="product_name"
+    # product_name_again = models.CharField(max_length=50, verbose_name='prod name')
     product_content = models.CharField(max_length=150)#validators=[regex(r'\%казино%')],
+
+    def __str__(self):
+        return f"{self.product_name_again} {self.product_content} "
+
+
 
     def clean(self):
 

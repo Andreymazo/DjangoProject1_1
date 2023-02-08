@@ -1,0 +1,9 @@
+<!--{#{% extends 'CustomUser/base.html' %}#}-->
+
+    {% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit"> Coxранить </button>
+</form>
+{% endblock %}
