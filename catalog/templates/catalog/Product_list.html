@@ -65,17 +65,25 @@
                     <td>{{object.product_description}}</td>
                     <td>{{object.category}}</td>
                     <td>{{object.price_per_unit}}</td>
+
                     <td>{{object.get_status_display}}
-                        {% if object.status == True %}
-                        <a class="btn btn-light" href="{% url 'catalog:status' object.pk %}">X</a>
-                        {% else %}
-                        <a class="btn btn-light" href="{% url 'catalog:status' object.pk %}">V</a>
+                        {% if perms.catalog.set_published_status_Product %}
+                            {% if object.status == True %}
+
+                                <a class="btn btn-light" href="{% url 'catalog:status' object.pk %}">X</a>
+                                {% else %}
+                                <a class="btn btn-light" href="{% url 'catalog:status' object.pk %}">V</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td>
                         <a class="btn.btn-default" href="{% url 'catalog:Product_form' object.pk %}" >Update</a>
-                        <a class="btn.btn-default" href="{% url 'catalog:Product_create' object.pk %}" >Create</a>
-                        <a class="btn.btn-default" href="{% url 'catalog:Product_delete' object.pk %}" >Delete</a>
+                        {% if perms.catalog.create_Product %}
+                            <a class="btn.btn-default" href="{% url 'catalog:Product_create' object.pk %}" >Create</a>
+                        {% endif %}
+                        {% if perms.catalog.delete_products %}
+                            <a class="btn.btn-default" href="{% url 'catalog:Product_delete' object.pk %}" >Delete</a>
+                        {% endif %}
 
                     </td>
 

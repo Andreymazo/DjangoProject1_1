@@ -3,6 +3,12 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import CASCADE
 
+import catalog
+from users.models import User
+
+# from django.contrib.auth.models import Permission
+# permissions = Permission.objects.all()
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -15,8 +21,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    STATUS_ACTIV = 'active'
-    STATUS_INACTIV = 'inactive'
+    STATUS_ACTIV = True
+    STATUS_INACTIV = False
     STATUSES = (
         (STATUS_ACTIV, 'available'),
         (STATUS_INACTIV, 'no item')
@@ -32,14 +38,39 @@ class Product(models.Model):
     price_per_unit = models.DecimalField(max_digits=6, decimal_places=2, **NULLABLE)
     date_of_creation = models.DateField(auto_now_add=True)
     date_last_change = models.DateField(auto_now=True)
-    status = models.CharField(choices=STATUSES, default=STATUS_ACTIV, max_length=20)
+    status = models.BooleanField(choices=STATUSES, default=STATUS_ACTIV, max_length=20)
 
-    # def save(self, *args, **kwargs):
-    #     t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-    #     if self.product_name in t:
-    #         raise ValidationError('Nedopustimie slova')
-    #     else:
-    #         super().save(*args, **kwargs)
+    # for perm in Product_permission:
+    #     User.user_permissions.add(perm)
+    class Meta:
+        permissions = [
+            ("set_published_status", "Can publish Product"),
+            ("add_Product", "Can add Product"),
+        ]
+
+    # class Meta:
+    #     permissions = (("group 1", "Can view 3 suggestions"), ("group 2", "Can view 6 suggestions"),)
+        # for perm in permissions:
+        #     User.user_permissions.add(perm)
+        # for perm in permissions:
+            # User.user_permissions.add(perm)#has_perm(catalog.set_published_status_product))
+        # print(User.user_permissions)
+        # from django.contrib.auth.models import Permission
+        # permissions = Permission.objects.filter(user=User)
+        # for perm in permissions:
+        #     User.user_permissions.add(perm)
+
+        # @permission_required("blog.view_post") ###############FBV
+        # def post_list_view(request):
+        #     """ Работа с доступами в FBV """
+        #     return HttpResponse()
+        ###################################################3
+    def save(self, *args, **kwargs):
+        t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+        if self.product_name in t:
+            raise ValidationError('Nedopustimie slova')
+        else:
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return f"""{self.product_name}{self.preview}  {self.product_description} {self.price_per_unit} {self.status}   """  # {self.id}

@@ -6,13 +6,13 @@ from users.models import User
 from users.forms import UserForm
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 
-class UserEditProfileView(UpdateView):
+class UserEditProfileView(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'users/profile.html'
     form_class = UserChangeForm###Chto u Olega v form.py????? Eto krasota prosto

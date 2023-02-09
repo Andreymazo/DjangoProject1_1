@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from users.models import User
 # from catalog.models import Student
 
 # admin.site.register(Student)
@@ -29,6 +30,14 @@ class ProductAdmin(admin.ModelAdmin):
     # list_editable = ['']
     # prepopulated_fields = {'slug': ('name',)}
 admin.site.register(Product, ProductAdmin)
+from django.contrib.auth.models import Permission
+
+# permissions = Permission.objects.filter(user=user)
+
+#     test@test.ru.user_permissions.add(p)###Вместо test@test ставим пользователя которого выберем по ПКею, в консоли, и потом по номерам выдаем ему права.
+#     test@test.ru.save()###### from users.models import User/u=User.objects.get(pk=6)/ u.__dict__/from django.contrib.auth.models import Permission/permissions = Permission.objects.all()/u.user_permissions.add(1)
+# for perm in catalog_permission:
+#         user.user_permissions.add(perm)
 class RecordAdmin(admin.ModelAdmin):
     list_display = ['title', 'content', 'image', 'id_public']
     prepopulated_fields = {"slug": ("title",)}

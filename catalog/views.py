@@ -7,6 +7,9 @@ from django.urls import reverse_lazy, reverse
 
 from catalog.forms import SubjectForm, ProductForm
 from catalog.models import Category, Product, Record
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.http import HttpResponseBadRequest
 
 
 # def hello(request):
@@ -27,7 +30,7 @@ from catalog.models import Category, Product, Record
 
 Record.views_controller = 0
 
-
+@login_required
 def products(request):
     g = Record.views_controller
     g += 1
@@ -43,7 +46,7 @@ def products(request):
 #     context = {'object_list': Record.objects.all()}
 #     return render(request, 'catalog/record_detail.html', context)
 
-
+@login_required()
 def contact_us(request):
 
 
@@ -76,20 +79,21 @@ def get_counter(requests):
         context = {"g": g}
         return render(requests, context)
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     form_class = SubjectForm
     success_url = reverse_lazy('catalog:Category_List')
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     form_class = SubjectForm
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/Product_list.html'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(PermissionRequiredMixin, CreateView):#Zapretili sozdanie producta
     model = Product
+    permission_required = 'catalog.create_Product'
     #form_class = SubjectForm
     form_class = ProductForm
     # fields = ('product_name', 'product_description', 'preview', 'price_per_unit', 'category')
@@ -97,7 +101,7 @@ class ProductCreateView(CreateView):
     template_name = 'catalog/product_form.html'
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:Product_list')
@@ -116,33 +120,38 @@ class ProductUpdateView(UpdateView):
     #             return Product.product_name
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(UserPassesTestMixin, DeleteView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/product_confirm_delete.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class ProductDetailView(DeleteView):
+
+class ProductDetailView(LoginRequiredMixin, DeleteView):
     model = Product
     # form_class = ProductForm
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/Product_detail.html'
 
-
+@login_required
 def change_status(request, pk):
-
+    if request.user.has_perms('catalog.set_published_status_Product'):
 
     # product_item = Product.objects.filter(pk=pk).first()
     # if product_item:
     #     if ... is None:
-    product_item = get_object_or_404(Product, pk=pk)
-    if product_item.status == Product.STATUS_ACTIV:
-        product_item.status = Product.STATUS_INACTIV
-    else:
-        product_item.status = Product.STATUS_ACTIV
-    product_item.save()
-    return redirect(reverse('catalog:Product_list'))
+        product_item = get_object_or_404(Product, pk=pk)
+        if product_item.status == Product.STATUS_ACTIV:
+            product_item.status = Product.STATUS_INACTIV
+        else:
+            product_item.status = Product.STATUS_ACTIV
+        product_item.save()
+        return redirect(reverse('catalog:Product_list'))
+    if not request.user.has_perms('catalog.set_published_status_Product'):
+        raise HttpResponseBadRequest
 
 # class ProductCreateFormMore():
 #     def context_data(self, **kwargs):
@@ -156,11 +165,11 @@ def change_status(request, pk):
 #         return context_data
 
 
-class RecordListView(ListView):
+class RecordListView(LoginRequiredMixin, ListView):
     model = Record
 
 
-class RecordCreateView(CreateView):
+class RecordCreateView(LoginRequiredMixin, CreateView):
     # Sozdaem zapis "Record form"
     model = Record
     fields = '__all__'
@@ -177,7 +186,7 @@ class RecordCreateView(CreateView):
 #         return render(request, 'Rec_list.html', {
 #             'file_url':file_url
 #         })
-class RecordUpdateView(UpdateView):
+class RecordUpdateView(LoginRequiredMixin, UpdateView):
     # Sozdaem zapis
     model = Record
     # fields = '__all__'
@@ -186,11 +195,11 @@ class RecordUpdateView(UpdateView):
 
 
 
-class RecordDeleteView(DeleteView):
+class RecordDeleteView(LoginRequiredMixin, DeleteView):
     model = Record
     success_url = reverse_lazy('catalog:Rec_list')
 
 
-class RecordDetailView(DetailView):
+class RecordDetailView(LoginRequiredMixin, DetailView):
     model = Record
     template_name = 'catalog/record_detail.html'
