@@ -38,7 +38,7 @@ class Product(models.Model):
     price_per_unit = models.DecimalField(max_digits=6, decimal_places=2, **NULLABLE)
     date_of_creation = models.DateField(auto_now_add=True)
     date_last_change = models.DateField(auto_now=True)
-    status = models.BooleanField(choices=STATUSES, default=STATUS_ACTIV, max_length=20)
+    published_status = models.BooleanField(choices=STATUSES, default=STATUS_ACTIV, max_length=20)
 
     # for perm in Product_permission:
     #     User.user_permissions.add(perm)
@@ -47,6 +47,7 @@ class Product(models.Model):
             ("set_published_status", "Can publish Product"),
             ("add_Product", "Can add Product"),
         ]
+
 
     # class Meta:
     #     permissions = (("group 1", "Can view 3 suggestions"), ("group 2", "Can view 6 suggestions"),)

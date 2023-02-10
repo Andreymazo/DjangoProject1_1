@@ -86,7 +86,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
-    form_class = SubjectForm
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/Product_list.html'
 
@@ -138,20 +138,20 @@ class ProductDetailView(LoginRequiredMixin, DeleteView):
 
 @login_required
 def change_status(request, pk):
-    if request.user.has_perms('catalog.set_published_status_Product'):
+    if request.user.has_perm('catalog.set_published_status'):
 
     # product_item = Product.objects.filter(pk=pk).first()
     # if product_item:
     #     if ... is None:
         product_item = get_object_or_404(Product, pk=pk)
-        if product_item.status == Product.STATUS_ACTIV:
-            product_item.status = Product.STATUS_INACTIV
+        if product_item.published_status == Product.STATUS_ACTIV:
+            product_item.published_status = Product.STATUS_INACTIV
         else:
-            product_item.status = Product.STATUS_ACTIV
+            product_item.published_status = Product.STATUS_ACTIV
         product_item.save()
         return redirect(reverse('catalog:Product_list'))
-    if not request.user.has_perms('catalog.set_published_status_Product'):
-        raise HttpResponseBadRequest
+
+    raise HttpResponseBadRequest
 
 # class ProductCreateFormMore():
 #     def context_data(self, **kwargs):

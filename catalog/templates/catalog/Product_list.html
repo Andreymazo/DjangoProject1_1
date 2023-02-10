@@ -67,8 +67,8 @@
                     <td>{{object.price_per_unit}}</td>
 
                     <td>{{object.get_status_display}}
-                        {% if perms.catalog.set_published_status_Product %}
-                            {% if object.status == True %}
+                        {% if perms.catalog.set_published_status %}
+                            {% if object.published_status %}
 
                                 <a class="btn btn-light" href="{% url 'catalog:status' object.pk %}">X</a>
                                 {% else %}
