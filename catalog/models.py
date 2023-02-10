@@ -74,7 +74,7 @@ class Product(models.Model):
             super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"""{self.product_name}{self.preview}  {self.product_description} {self.price_per_unit} {self.status}   """  # {self.id}
+        return f"""{self.product_name}{self.preview}  {self.product_description} {self.price_per_unit} {self.published_status}   """  # {self.id}
 
 
 class Subject(models.Model):

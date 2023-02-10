@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls.static import static
 from catalog.apps import CatalogConfig
-from catalog.formset_views import ProductUpdateWithSubject
+from catalog.formset_views import ProductCreateWithSubject
 from config import settings
 from catalog.views import products, contact_us, RecordListView, RecordCreateView, RecordUpdateView, RecordDeleteView, \
     RecordDetailView, ProductListView, ProductUpdateView, \
@@ -19,7 +19,7 @@ urlpatterns = [
     path('products/', ProductListView.as_view(), name='Product_list'),
     path('create_products/<int:pk>/', ProductCreateView.as_view(), name='Product_create'),
     path('create_products/', ProductCreateView.as_view(), name='Product_create'),
-    # path('create_products/<int:pk>/subjects/', ProductUpdateWithSubject.as_view(), name='update_withsubject'),
+    path('create_products/<int:pk>/subjects/', ProductCreateWithSubject.as_view(), name='update_withsubject'),
 
 
     path('delete_products/<int:pk>/', ProductDeleteView.as_view(), name='Product_delete'),
