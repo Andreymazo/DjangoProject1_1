@@ -6,11 +6,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.urls import reverse_lazy, reverse
 
 from catalog.forms import SubjectForm, ProductForm
-from catalog.models import Category, Product, Record
+from catalog.models import Category, Product, Record, Subject
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.http import HttpResponseBadRequest
-
+from django.core.cache import cache
+from config import settings
 
 # def hello(request):
 #     if request.method == 'POST':
@@ -81,7 +82,7 @@ def get_counter(requests):
 
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
-    form_class = SubjectForm
+    # form_class = CategoryForm
     success_url = reverse_lazy('catalog:Category_List')
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -99,6 +100,10 @@ class ProductCreateView(PermissionRequiredMixin, CreateView):#Zapretili sozdanie
     # fields = ('product_name', 'product_description', 'preview', 'price_per_unit', 'category')
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/product_withsubject.html'
+# def select_from_cache_or_get_from_db():######Keshiruem
+#     queryset = Product.objects.all()
+#     if settings.CACHE_ENABLED:
+#         cache_key = 'all_products'
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -135,6 +140,21 @@ class ProductDetailView(LoginRequiredMixin, DeleteView):
     # form_class = ProductForm
     success_url = reverse_lazy('catalog:Product_list')
     template_name = 'catalog/Product_detail.html'
+    def _cache_subjects(self):#####Keshirovanie na nizkom urovne
+        queryset = Subject.objects.filter(product_name_again=self.object)
+        if settings.CACHE_ENABLED:
+            key = f'product_name_again_subjects_{self.object.pk}'
+            cache_data = cache.get(key)
+            if cache_data is None:
+                cache_data=queryset
+                cache.set(key, cache_data)
+            return cache_data
+        return queryset
+    def get_context_data(self, **kwargs):
+
+        context_data = super().get_context_data(**kwargs)
+        context_data['subjects']=Subject.objects.filter(product_name_again=self.object)#product_content
+        return context_data
 
 @login_required
 def change_status(request, pk):
@@ -203,3 +223,11 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
 class RecordDetailView(LoginRequiredMixin, DetailView):
     model = Record
     template_name = 'catalog/record_detail.html'
+# class SubjectCreateView(CreateView):#Zapretili sozdanie producta
+#     model = Subject
+#     # permission_required = 'catalog.create_Product'
+#     #form_class = SubjectForm
+#     # form_class = ProductForm
+#     # fields = ('product_name', 'product_description', 'preview', 'price_per_unit', 'category')
+#     success_url = reverse_lazy('catalog:Product_list')
+#     template_name = 'catalog/product_withsubject.html'

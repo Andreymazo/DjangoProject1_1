@@ -142,6 +142,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = ' ' or None
 # EMAIL_USE_SSL = True
 # EMAIL_BACKEND = ('')
-
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379',
+            #'LOCATION': 'redis://username:pasword@127.0.0.1:6379',
+        }
+    }
 
 

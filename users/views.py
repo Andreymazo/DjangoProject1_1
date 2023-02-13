@@ -1,5 +1,7 @@
+from django.views.generic import ListView
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView
+from catalog.models import Product
+
 from django.views.generic import UpdateView, CreateView
 from django.urls import reverse_lazy
 from users.models import User
@@ -7,10 +9,33 @@ from users.forms import UserForm
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 
 
 class CustomLoginView(LoginView):
-    template_name = 'users/login.html'
+    template_name = 'users/login1.html'
+
+class CustomRegisterView(CreateView):
+    model = User
+    form_class = UserForm
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+            # if form.data.get('need_generate', False):
+            #     self.object.set_password(
+            #         self.object.make_random_password(length=12)
+            #     )
+            #     self.object.save()
+            self.object.is_active = False
+            #send_register_mail()
+            self.object.save()
+        return super().form_valid(form)
+
+
+
+    #
+    # success_url = reverse_lazy('catalog:Product_list')
+
 
 class UserEditProfileView(LoginRequiredMixin, UpdateView):
     model = User
@@ -21,9 +46,11 @@ class UserEditProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
 class CustomRegisterView(CreateView):
     model = User
     form_class = UserCreationForm
+    template_name = 'users/register.html'
 
     # def form_valid(self, form):
     #     if form.is_valid():
@@ -39,7 +66,15 @@ class CustomRegisterView(CreateView):
     #     return super().form_valid(form)
 class EmailVerify(View):
     pass
+class ProductListView(ListView):
+    model = Product
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.has_perm('catalog.set_published_status'):
+            return queryset
+
+        return queryset.filter(published_status=True)
 from django.contrib.auth import authenticate, login
 
 from django.shortcuts import render, redirect

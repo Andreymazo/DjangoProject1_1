@@ -52,7 +52,7 @@ class UserCustomCreationForm(UserCreationForm):
     )
 
     class Meta(UserCreationForm.Meta):
-        model = User
+        model = UserCustom
         fields = ["email", "phone", "country", "avatar"]  #
 
 

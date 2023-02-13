@@ -17,8 +17,9 @@ urlpatterns = [
     path('contact_us/', contact_us, name='contacts'),
     path('category/', CategoryListView.as_view(), name='Category_List'),
     path('products/', ProductListView.as_view(), name='Product_list'),
-    path('create_products/<int:pk>/', ProductCreateView.as_view(), name='Product_create'),
+    #
     path('create_products/', ProductCreateView.as_view(), name='Product_create'),
+    path('create_products/<int:pk>/', ProductCreateView.as_view(), name='Product_create'),
     path('create_products/<int:pk>/subjects/', ProductCreateWithSubject.as_view(), name='update_withsubject'),
 
 
