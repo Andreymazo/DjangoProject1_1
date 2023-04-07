@@ -6,6 +6,9 @@ from django.contrib.auth.models import UserManager
 from django.apps import apps
 from django.contrib.auth.hashers import make_password
 from users.models import User
+from django.contrib.auth.forms import UserChangeForm
+# from forms_mixins import StyleFormMixin
+from users.models import User
 
 ###############################################
 # from catalog.form_mixins import StyleFormMixin
@@ -56,12 +59,12 @@ class UserCustomCreationForm(UserCreationForm):
         fields = ["email", "phone", "country", "avatar"]  #
 
 
-from django.contrib.auth.forms import UserChangeForm
-
-from users.models import User
-
-
-class UserForm(UserChangeForm):
+# class CustomEditUserForm(StyleFormMixin, UserChangeForm):
+#     class Meta:
+#         model = User
+#         fields = ['email', 'country', 'avatar', 'phone']
+class UserForm(UserChangeForm):#StyleFormMixin,
     class Meta:
         model = User
-        fields = ('email', 'country', 'avatar', 'phone')  #
+        fields = ['email', 'country', 'avatar', 'phone']  #
+        # field_classes = {"email": "email", "country": "country", "avatar": "avatar", "phone": "phone"}

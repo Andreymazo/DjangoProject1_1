@@ -5,7 +5,7 @@ from catalog.models import Product
 from django.views.generic import UpdateView, CreateView
 from django.urls import reverse_lazy
 from users.models import User
-from users.forms import UserForm
+from users.forms import UserForm, UserCustomCreationForm
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,6 +13,9 @@ from django.contrib.auth.views import LoginView
 
 
 class CustomLoginView(LoginView):
+    model = User
+    # form_class = UserCustomCreationForm
+    # success_url = reverse_lazy('catalog:Product_list')
     template_name = 'users/login1.html'
 
 class CustomRegisterView(CreateView):
@@ -21,6 +24,7 @@ class CustomRegisterView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             self.object = form.save()
+
             # if form.data.get('need_generate', False):
             #     self.object.set_password(
             #         self.object.make_random_password(length=12)
@@ -31,6 +35,16 @@ class CustomRegisterView(CreateView):
             self.object.save()
         return super().form_valid(form)
 
+    # if (form.is_valid()):
+    #     cd = form.cleaned_data
+    #     user = User.objects.create_user(cd["email"], cd["phone], cd["country"], cd["avatar"])
+    #     user.first_name = cd["FirstName"]
+    #     user.last_name = cd["LastName"]
+    #     user.save()
+    #     # Save userinfo record
+    #     uinfo = user.get_profile()
+    #     uinfo.middle_name = cd["MiddleName"]
+    #     uinfo.save()
 
 
     #

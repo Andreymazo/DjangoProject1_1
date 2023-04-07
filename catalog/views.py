@@ -223,6 +223,12 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
 class RecordDetailView(LoginRequiredMixin, DetailView):
     model = Record
     template_name = 'catalog/record_detail.html'
+
+    # def get_object(self, queryset=None):
+    #     object=super().get_object(queryset)
+    #     object.view_controller += 1
+    #     object.save()
+    #     return object
 # class SubjectCreateView(CreateView):#Zapretili sozdanie producta
 #     model = Subject
 #     # permission_required = 'catalog.create_Product'

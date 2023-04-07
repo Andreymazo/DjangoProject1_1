@@ -31,7 +31,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=250, verbose_name='Naimenovanie Producta')
 
     product_description = models.CharField(max_length=250, verbose_name="Product description", **NULLABLE)
-    preview = models.ImageField(upload_to='records', **NULLABLE)
+    preview = models.ImageField(upload_to='media', **NULLABLE)
     category = models.ForeignKey(Category, related_name="Category", blank=True, max_length=100,
                                  verbose_name="Category description",
                                  on_delete=models.CASCADE)
@@ -108,7 +108,7 @@ class Record(models.Model):
     title = models.CharField(max_length=50, verbose_name="Заголовок")
     slug = models.CharField(max_length=50, verbose_name="Slug")
     content = models.TextField(max_length=50, null=False, verbose_name='Content')
-    image = models.ImageField(upload_to="records", **NULLABLE, default=None)
+    image = models.ImageField(upload_to="media", **NULLABLE, default=None)
 
     @property
     def image_url(self):

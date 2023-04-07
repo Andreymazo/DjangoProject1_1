@@ -40,4 +40,4 @@ class User(AbstractUser):
     country = models.CharField(max_length=30, verbose_name='страна', blank=True, null=True)
     avatar = models.ImageField(upload_to='users/', verbose_name='аватарка', blank=True, null=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []#email, phone, country, avatar
